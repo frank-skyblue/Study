@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>6-Month DSA Study Plan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Sora:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg:      #0d1117;
+    --surface: #161b22;
+    --border:  #30363d;
+    --text:    #e6edf3;
+    --muted:   #8b949e;
+    --accent:  #58a6ff;
+    --green:   #3fb950;
+    --yellow:  #d29922;
+    --purple:  #bc8cff;
+    --red:     #ff7b72;
+    --orange:  #f0883e;
+    --teal:    #39d353;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Sora', sans-serif; min-height: 100vh; }
+
+  /* ── Header ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .header-title { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 800; color: var(--text); }
+  .header-sub { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .header-tags { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: #21262d; color: var(--accent); padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border); }
+
+  /* ── Nav ── */
+  .nav { background: var(--surface); border-bottom: 1px solid var(--border); display: flex; padding: 0 32px; overflow-x: auto; }
+  .nav-btn {
+    background: none; border: none; border-bottom: 2px solid transparent;
+    cursor: pointer; padding: 12px 16px; font-size: 13px; font-weight: 600;
+    color: var(--muted); font-family: 'Sora', sans-serif; white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── Content ── */
+  .content { max-width: 960px; margin: 0 auto; padding: 36px 32px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  .section-title { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 18px; }
+  p { font-size: 14px; line-height: 1.8; color: #adbac7; }
+  code { font-family: 'JetBrains Mono', monospace; background: #21262d; color: var(--green); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+
+  /* ── Timeline (overview) ── */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 28px; }
+  .timeline-dot {
+    position: absolute; left: -28px; top: 4px;
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid; display: flex; align-items: center; justify-content: center;
+    font-size: 8px; font-weight: 800; font-family: 'JetBrains Mono', monospace;
+    background: var(--bg);
+  }
+  .timeline-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; cursor: pointer; transition: border-color 0.15s; }
+  .timeline-card:hover { border-color: var(--accent); }
+  .timeline-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .month-badge { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 4px; }
+  .timeline-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .timeline-goal { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+  .topic-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; background: #21262d; color: var(--muted); border: 1px solid var(--border); }
+  .check-bar { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+  .check-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+  .progress-track { flex: 1; height: 4px; background: #21262d; border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+
+  /* ── Month detail panels ── */
+  .week-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .week-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .week-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .week-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .problem-list { list-style: none; }
+  .problem-list li { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; color: var(--muted); border-bottom: 1px solid #1e2230; cursor: pointer; }
+  .problem-list li:last-child { border-bottom: none; }
+  .problem-list li:hover { color: var(--text); }
+  .check-box { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .check-box.done { background: var(--green); border-color: var(--green); }
+  .check-box.done::after { content: '✓'; font-size: 9px; color: #0d1117; font-weight: 800; }
+  .diff-badge { font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 1px 5px; border-radius: 3px; margin-left: auto; flex-shrink: 0; }
+  .easy { background: rgba(63,185,80,0.15); color: var(--green); }
+  .medium { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .hard { background: rgba(255,123,114,0.15); color: var(--red); }
+
+  .checkpoint-box { border-radius: 8px; padding: 14px 16px; margin-bottom: 20px; }
+  .checkpoint-title { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  .checkpoint-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--muted); margin-bottom: 6px; line-height: 1.6; }
+
+  /* ── Patterns panel ── */
+  .pattern-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pattern-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .pattern-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .pattern-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .pattern-name { font-size: 14px; font-weight: 700; }
+  .pattern-month { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+  .pattern-when { font-size: 12px; color: var(--muted); margin-bottom: 10px; line-height: 1.65; }
+  .pattern-code { background: #0a0c10; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text); line-height: 1.8; white-space: pre; overflow-x: auto; }
+
+  /* ── Principles ── */
+  .principle-list { display: flex; flex-direction: column; gap: 12px; }
+  .principle-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; display: flex; gap: 14px; }
+  .principle-num { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 800; color: var(--border); flex-shrink: 0; min-width: 32px; }
+  .principle-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .principle-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  /* ── Progress tracker ── */
+  .tracker-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .tracker-summary { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); }
+  .tracker-summary span { color: var(--green); font-weight: 700; }
+  .month-tracker { margin-bottom: 16px; }
+  .month-tracker-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .month-name { font-size: 13px; font-weight: 600; color: var(--text); min-width: 120px; }
+  .month-progress { flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden; }
+  .month-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+  .month-pct { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); min-width: 40px; text-align: right; }
+
+  .reset-btn { background: #21262d; border: 1px solid var(--border); color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+  .reset-btn:hover { color: var(--red); border-color: var(--red); }
+
+  /* ── Targets table ── */
+  .targets-table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .targets-table th { padding: 10px 14px; text-align: left; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--border); background: #0a0c10; }
+  .targets-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .targets-table tr:last-child td { border-bottom: none; }
+  .targets-table tr:nth-child(even) td { background: #0d1117; }
+
+  @media (max-width: 600px) {
+    .week-grid { grid-template-columns: 1fr; }
+    .pattern-grid { grid-template-columns: 1fr; }
+    .content { padding: 24px 16px; }
+    .header { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-icon">📈</div>
+  <div>
+    <div class="header-title">6-Month DSA Study Plan</div>
+    <div class="header-sub">Foundations → Mediums → Hards → Interview-ready</div>
+  </div>
+  <div class="header-tags">
+    <span class="tag">6 months</span>
+    <span class="tag">LeetCode</span>
+    <span class="tag">Stripe-ready</span>
+  </div>
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <button class="nav-btn active" onclick="switchTab('overview')">Overview</button>
+  <button class="nav-btn" onclick="switchTab('month1')">Month 1</button>
+  <button class="nav-btn" onclick="switchTab('month2')">Month 2</button>
+  <button class="nav-btn" onclick="switchTab('month3')">Month 3</button>
+  <button class="nav-btn" onclick="switchTab('month4')">Month 4</button>
+  <button class="nav-btn" onclick="switchTab('month5')">Month 5</button>
+  <button class="nav-btn" onclick="switchTab('month6')">Month 6</button>
+  <button class="nav-btn" onclick="switchTab('patterns')">Patterns</button>
+  <button class="nav-btn" onclick="switchTab('principles')">Principles</button>
+  <button class="nav-btn" onclick="switchTab('progress')">Progress</button>
+</div>
+
+<div class="content">
+
+<!-- ══════════ OVERVIEW ══════════ -->
+<div id="panel-overview" class="panel active">
+  <div class="section-title">The Plan</div>
+  <p style="margin-bottom:24px">Six months from shaky fundamentals to interview-ready. Each month builds on the last. Don't skip ahead — the gate to the next month is passing the end-of-month check, not completing the calendar.</p>
+
+  <div class="timeline">
+    <!-- M1 -->
+    <div class="timeline-item">
+      <div class="timeline-dot" style="border-color:var(--accent);color:var(--accent)">1</div>
+      <div class="timeline-card" onclick="switchTab('month1')">
+        <div class="timeline-header">
+          <span class="month-badge" style="background:rgba(88,166,255,0.15);color:var(--accent)">Month 1</span>
+          <span class="timeline-title">Foundations</span>
+        </div>
+        <div class="timeline-goal">Every basic pattern feels automatic. You can solve any Easy in under 10 minutes.</div>
+        <div class="topic-pills">
+          <span class="pill">Arrays</span>
+          <span class="pill">Hash Maps</span>
+          <span class="pill">Sliding Window</span>
+          <span class="pill">Prefix Sums</span>
+          <span class="pill">Stack</span>
+          <span class="pill">Queue</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- M2 -->
+    <div class="timeline-item">
+      <div class="timeline-dot" style="border-color:var(--green);color:var(--green)">2</div>
+      <div class="timeline-card" onclick="switchTab('month2')">
+        <div class="timeline-header">
+          <span class="month-badge" style="background:rgba(63,185,80,0.15);color:var(--green)">Month 2</span>
+          <span class="timeline-title">Trees &amp; Graphs</span>
+        </div>
+        <div class="timeline-goal">BFS and DFS are as natural as a for loop. You write them from memory in under 3 minutes.</div>
+        <div class="topic-pills">
+          <span class="pill">Binary Trees</span>
+          <span class="pill">BFS</span>
+          <span class="pill">DFS</span>
+          <span class="pill">Graphs</span>
+          <span class="pill">Topological Sort</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- M3 -->
+    <div class="timeline-item">
+      <div class="timeline-dot" style="border-color:var(--yellow);color:var(--yellow)">3</div>
+      <div class="timeline-card" onclick="switchTab('month3')">
+        <div class="timeline-header">
+          <span class="month-badge" style="background:rgba(210,153,34,0.15);color:var(--yellow)">Month 3</span>
+          <span class="timeline-title">Core Algorithm Patterns</span>
+        </div>
+        <div class="timeline-goal">Given a medium problem, you identify the pattern within 2 minutes.</div>
+        <div class="topic-pills">
+          <span class="pill">Binary Search</span>
+          <span class="pill">Two Pointers</span>
+          <span class="pill">Backtracking</span>
+          <span class="pill">Heap</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- M4 -->
+    <div class="timeline-item">
+      <div class="timeline-dot" style="border-color:var(--purple);color:var(--purple)">4</div>
+      <div class="timeline-card" onclick="switchTab('month4')">
+        <div class="timeline-header">
+          <span class="month-badge" style="background:rgba(188,140,255,0.15);color:var(--purple)">Month 4</span>
+          <span class="timeline-title">Dynamic Programming</span>
+        </div>
+        <div class="timeline-goal">You define the recurrence relation before writing any code.</div>
+        <div class="topic-pills">
+          <span class="pill">1D DP</span>
+          <span class="pill">2D DP</span>
+          <span class="pill">DP on Strings</span>
+          <span class="pill">DP on Intervals</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- M5 -->
+    <div class="timeline-item">
+      <div class="timeline-dot" style="border-color:var(--orange);color:var(--orange)">5</div>
+      <div class="timeline-card" onclick="switchTab('month5')">
+        <div class="timeline-header">
+          <span class="month-badge" style="background:rgba(240,136,62,0.15);color:var(--orange)">Month 5</span>
+          <span class="timeline-title">Hard Problems &amp; Speed</span>
+        </div>
+        <div class="timeline-goal">Consistent on mediums in 20–25 min. Cracking hards with effort.</div>
+        <div class="topic-pills">
+          <span class="pill">Hard variants</span>
+          <span class="pill">Timed practice</span>
+          <span class="pill">2-problem sets</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- M6 -->
+    <div class="timeline-item">
+      <div class="timeline-dot" style="border-color:var(--red);color:var(--red)">6</div>
+      <div class="timeline-card" onclick="switchTab('month6')">
+        <div class="timeline-header">
+          <span class="month-badge" style="background:rgba(255,123,114,0.15);color:var(--red)">Month 6</span>
+          <span class="timeline-title">Interview Simulation</span>
+        </div>
+        <div class="timeline-goal">Perform under pressure. Talk through approach before coding. Company-specific prep.</div>
+        <div class="topic-pills">
+          <span class="pill">Mock Interviews</span>
+          <span class="pill">Stripe Patterns</span>
+          <span class="pill">Review</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+  <div class="section-title">Targets by Month</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+    <table class="targets-table">
+      <thead><tr><th>Month</th><th>Focus</th><th>Comfortable with</th><th>Gate</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--accent)">1</td><td>Foundations</td><td>All Easys, simple Mediums</td><td>Any Easy in &lt;10 min</td></tr>
+        <tr><td style="color:var(--green)">2</td><td>Trees &amp; Graphs</td><td>Tree/graph Mediums</td><td>BFS + DFS from memory in &lt;3 min</td></tr>
+        <tr><td style="color:var(--yellow)">3</td><td>Patterns</td><td>Pattern recognition on any Medium</td><td>Identify pattern in &lt;2 min</td></tr>
+        <tr><td style="color:var(--purple)">4</td><td>DP</td><td>Most Mediums, some Hards</td><td>Write recurrence before code</td></tr>
+        <tr><td style="color:var(--orange)">5</td><td>Speed</td><td>Mediums consistently, Hards with effort</td><td>Mediums in &lt;25 min</td></tr>
+        <tr><td style="color:var(--red)">6</td><td>Simulation</td><td>Interview-ready</td><td>Full mock, no hints</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════ MONTH 1 ══════════ -->
+<div id="panel-month1" class="panel">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+    <span class="month-badge" style="background:rgba(88,166,255,0.15);color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;padding:4px 12px;border-radius:6px">Month 1</span>
+    <h2 style="font-size:20px;font-weight:800;color:var(--text)">Foundations</h2>
+  </div>
+  <p style="margin-bottom:24px">The goal is not to solve hard problems. It's to write each pattern from memory until it feels automatic. Do one problem per day — not ten. Understand it completely.</p>
+
+  <div class="checkpoint-box" style="background:#0d1e33;border:1px solid rgba(88,166,255,0.25)">
+    <div class="checkpoint-title" style="color:var(--accent)">🎯 End of Month Goal</div>
+    <div class="checkpoint-item"><span style="color:var(--accent)">→</span> Any LeetCode Easy solved in under 10 minutes without thinking about the data structure</div>
+    <div class="checkpoint-item"><span style="color:var(--accent)">→</span> Sliding window, prefix sum, two sum written from memory in &lt;5 min each</div>
+  </div>
+
+  <div class="section-title">Week by Week</div>
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-label">Week 1–2</div>
+      <div class="week-title" style="color:var(--accent)">Arrays &amp; Hash Maps</div>
+      <ul class="problem-list" id="m1-w1">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Two Sum<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Group Anagrams<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Longest Substring No Repeat<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Subarray Sum Equals K<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Product of Array Except Self<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Maximum Subarray<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Contains Duplicate<span class="diff-badge easy">Easy</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 3–4</div>
+      <div class="week-title" style="color:var(--green)">Stack &amp; Queue</div>
+      <ul class="problem-list" id="m1-w2">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Valid Parentheses<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Min Stack<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Daily Temperatures<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Sliding Window Maximum<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Implement Queue Using Stacks<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Next Greater Element I<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Largest Rectangle in Histogram<span class="diff-badge hard">Hard</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn-box" style="background:#0d1e0f;border:1px solid rgba(63,185,80,0.25)">
+    <div class="hint-title" style="color:var(--green)">Daily habit — Week 1</div>
+    <p style="font-size:13px;color:var(--muted)">Before touching LeetCode each day, open a blank file and write the hash map grouping pattern and sliding window pattern from memory. 10 minutes max. If you can't do it, that's your problem for the day.</p>
+  </div>
+</div>
+
+<!-- ══════════ MONTH 2 ══════════ -->
+<div id="panel-month2" class="panel">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+    <span class="month-badge" style="background:rgba(63,185,80,0.15);color:var(--green);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;padding:4px 12px;border-radius:6px">Month 2</span>
+    <h2 style="font-size:20px;font-weight:800;color:var(--text)">Trees &amp; Graphs</h2>
+  </div>
+  <p style="margin-bottom:24px">This is the month that fixes the gap that cost you the Stripe OA. BFS and DFS need to become reflexes. Don't move to Month 3 until you can write both from memory in under 3 minutes.</p>
+
+  <div class="checkpoint-box" style="background:#0d2e23;border:1px solid rgba(63,185,80,0.25)">
+    <div class="checkpoint-title" style="color:var(--green)">🎯 End of Month Goal</div>
+    <div class="checkpoint-item"><span style="color:var(--green)">→</span> Write recursive DFS (pre/in/post-order) from memory in &lt;3 min</div>
+    <div class="checkpoint-item"><span style="color:var(--green)">→</span> Write iterative BFS (level order) from memory in &lt;3 min</div>
+    <div class="checkpoint-item"><span style="color:var(--green)">→</span> Solve any tree Medium without looking up traversal syntax</div>
+  </div>
+
+  <div class="section-title">Week by Week</div>
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-label">Week 1–2</div>
+      <div class="week-title" style="color:var(--green)">Binary Trees</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Maximum Depth of Binary Tree<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Invert Binary Tree<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Binary Tree Level Order Traversal<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Path Sum II<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Lowest Common Ancestor<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Diameter of Binary Tree<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Binary Tree Right Side View<span class="diff-badge medium">Med</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 3–4</div>
+      <div class="week-title" style="color:var(--accent)">Graphs</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Number of Islands<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Clone Graph<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Course Schedule (cycle detect)<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Course Schedule II (topo sort)<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Word Ladder<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Rotting Oranges<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Pacific Atlantic Water Flow<span class="diff-badge medium">Med</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn-box" style="background:#0d1e0f;border:1px solid rgba(63,185,80,0.25)">
+    <div class="hint-title" style="color:var(--green)">The gate for this month</div>
+    <p style="font-size:13px;color:var(--muted)">At the end of Week 2, open a blank file. Write BFS level order traversal and DFS post-order traversal from scratch with no reference. If either takes more than 5 minutes, repeat Week 1–2 before moving to graphs.</p>
+  </div>
+</div>
+
+<!-- ══════════ MONTH 3 ══════════ -->
+<div id="panel-month3" class="panel">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+    <span class="month-badge" style="background:rgba(210,153,34,0.15);color:var(--yellow);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;padding:4px 12px;border-radius:6px">Month 3</span>
+    <h2 style="font-size:20px;font-weight:800;color:var(--text)">Core Algorithm Patterns</h2>
+  </div>
+  <p style="margin-bottom:24px">Pattern recognition is the skill. You should be able to read a problem and know within 2 minutes which tool to reach for. Each week, drill one pattern until it's reflexive.</p>
+
+  <div class="checkpoint-box" style="background:#2d2410;border:1px solid rgba(210,153,34,0.3)">
+    <div class="checkpoint-title" style="color:var(--yellow)">🎯 End of Month Goal</div>
+    <div class="checkpoint-item"><span style="color:var(--yellow)">→</span> Given a new Medium, identify the correct pattern within 2 minutes</div>
+    <div class="checkpoint-item"><span style="color:var(--yellow)">→</span> Write binary search, two pointers, backtracking templates from memory</div>
+    <div class="checkpoint-item"><span style="color:var(--yellow)">→</span> Know when heap beats sorting — and when it doesn't</div>
+  </div>
+
+  <div class="section-title">Week by Week</div>
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-label">Week 1</div>
+      <div class="week-title" style="color:var(--yellow)">Binary Search</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Binary Search<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Search in Rotated Sorted Array<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Find Minimum in Rotated Array<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Koko Eating Bananas<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Median of Two Sorted Arrays<span class="diff-badge hard">Hard</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 2</div>
+      <div class="week-title" style="color:var(--accent)">Two Pointers</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Valid Palindrome<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>3Sum<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Container With Most Water<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Trapping Rain Water<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Remove Duplicates from Sorted Array<span class="diff-badge easy">Easy</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 3</div>
+      <div class="week-title" style="color:var(--purple)">Backtracking</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Subsets<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Permutations<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Combination Sum<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Word Search<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>N-Queens<span class="diff-badge hard">Hard</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 4</div>
+      <div class="week-title" style="color:var(--orange)">Heap</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Kth Largest Element<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Top K Frequent Elements<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Merge K Sorted Lists<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Find Median from Data Stream<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Task Scheduler<span class="diff-badge medium">Med</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MONTH 4 ══════════ -->
+<div id="panel-month4" class="panel">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+    <span class="month-badge" style="background:rgba(188,140,255,0.15);color:var(--purple);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;padding:4px 12px;border-radius:6px">Month 4</span>
+    <h2 style="font-size:20px;font-weight:800;color:var(--text)">Dynamic Programming</h2>
+  </div>
+  <p style="margin-bottom:24px">DP deserves a full month because it requires a different mental model — defining the subproblem before writing any code. The rule: always write the recurrence relation on paper first.</p>
+
+  <div class="checkpoint-box" style="background:#1a1228;border:1px solid rgba(188,140,255,0.3)">
+    <div class="checkpoint-title" style="color:var(--purple)">🎯 End of Month Goal</div>
+    <div class="checkpoint-item"><span style="color:var(--purple)">→</span> Define the recurrence relation for a new DP problem before writing any code</div>
+    <div class="checkpoint-item"><span style="color:var(--purple)">→</span> Redo 10 previously solved DP problems without looking at your solution</div>
+    <div class="checkpoint-item"><span style="color:var(--purple)">→</span> Recognize 1D vs 2D DP immediately from the problem structure</div>
+  </div>
+
+  <div class="section-title">Week by Week</div>
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-label">Week 1</div>
+      <div class="week-title" style="color:var(--purple)">1D DP</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Climbing Stairs<span class="diff-badge easy">Easy</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>House Robber<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>House Robber II<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Coin Change<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Longest Increasing Subsequence<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Word Break<span class="diff-badge medium">Med</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 2</div>
+      <div class="week-title" style="color:var(--accent)">2D DP</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Unique Paths<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Minimum Path Sum<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Longest Common Subsequence<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Edit Distance<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Maximal Square<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>0/1 Knapsack<span class="diff-badge medium">Med</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 3</div>
+      <div class="week-title" style="color:var(--yellow)">DP on Strings &amp; Intervals</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Palindromic Substrings<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Longest Palindromic Substring<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Palindrome Partitioning II<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Burst Balloons<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Regular Expression Matching<span class="diff-badge hard">Hard</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 4</div>
+      <div class="week-title" style="color:var(--green)">Review — No Hints</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Redo: Coin Change (blind)<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Redo: LCS (blind)<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Redo: Edit Distance (blind)<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Redo: House Robber II (blind)<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Redo: Word Break (blind)<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>New hard DP problem cold<span class="diff-badge hard">Hard</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn-box" style="background:#1a1228;border:1px solid rgba(188,140,255,0.25)">
+    <div class="hint-title" style="color:var(--purple)">The DP rule</div>
+    <p style="font-size:13px;color:var(--muted)">Before writing a single line of code for any DP problem, write on paper: (1) what does dp[i] represent, (2) what is the recurrence, (3) what are the base cases. If you skip this step, you're memorizing solutions, not learning DP.</p>
+  </div>
+</div>
+
+<!-- ══════════ MONTH 5 ══════════ -->
+<div id="panel-month5" class="panel">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+    <span class="month-badge" style="background:rgba(240,136,62,0.15);color:var(--orange);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;padding:4px 12px;border-radius:6px">Month 5</span>
+    <h2 style="font-size:20px;font-weight:800;color:var(--text)">Hard Problems &amp; Speed</h2>
+  </div>
+  <p style="margin-bottom:24px">You know all the patterns now. This month is about speed and consistency. Mediums should feel routine. Start cracking hards with effort. Add a timer to everything.</p>
+
+  <div class="checkpoint-box" style="background:#1a1208;border:1px solid rgba(240,136,62,0.3)">
+    <div class="checkpoint-title" style="color:var(--orange)">🎯 End of Month Goal</div>
+    <div class="checkpoint-item"><span style="color:var(--orange)">→</span> Solving Mediums consistently within 20–25 minutes</div>
+    <div class="checkpoint-item"><span style="color:var(--orange)">→</span> Cracking at least 50% of Hards attempted (with more time)</div>
+    <div class="checkpoint-item"><span style="color:var(--orange)">→</span> Comfortable doing 2-problem sets in one session</div>
+  </div>
+
+  <div class="section-title">Week by Week</div>
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-label">Week 1–2</div>
+      <div class="week-title" style="color:var(--orange)">Hard Variants</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6">One hard per day. No time limit. Understand it completely before moving on.</p>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Hard Binary Search problem<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Hard Graph / BFS problem<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Hard DP problem<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Hard Stack problem<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Hard Heap problem<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Hard Two Pointers problem<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Hard Backtracking problem<span class="diff-badge hard">Hard</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 3–4</div>
+      <div class="week-title" style="color:var(--yellow)">Timed Practice</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6">45 min per Medium. Track exactly where you got stuck. Do 2-problem sets.</p>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>2-problem set: array + hash map<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>2-problem set: tree + BFS<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>2-problem set: binary search + DP<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>1 Hard, no time limit<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>1 Hard, no time limit<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Full 60-min mock (2 Mediums)<span class="diff-badge medium">Med</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MONTH 6 ══════════ -->
+<div id="panel-month6" class="panel">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+    <span class="month-badge" style="background:rgba(255,123,114,0.15);color:var(--red);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;padding:4px 12px;border-radius:6px">Month 6</span>
+    <h2 style="font-size:20px;font-weight:800;color:var(--text)">Interview Simulation</h2>
+  </div>
+  <p style="margin-bottom:24px">Stop learning new things. Sharpen what you have. The goal is to perform under pressure, communicate clearly, and handle company-specific patterns.</p>
+
+  <div class="checkpoint-box" style="background:#2d1018;border:1px solid rgba(255,123,114,0.3)">
+    <div class="checkpoint-title" style="color:var(--red)">🎯 End of Month Goal</div>
+    <div class="checkpoint-item"><span style="color:var(--red)">→</span> Full mock interview: two problems, 60 minutes, no hints, talk through approach</div>
+    <div class="checkpoint-item"><span style="color:var(--red)">→</span> Clean solutions with correct output formatting on Stripe-style problems</div>
+    <div class="checkpoint-item"><span style="color:var(--red)">→</span> Can articulate time and space complexity for every solution</div>
+  </div>
+
+  <div class="section-title">Week by Week</div>
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-label">Week 1–2</div>
+      <div class="week-title" style="color:var(--red)">Mock Interviews</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Mock 1: 60 min, 2 Mediums<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Mock 2: 60 min, 2 Mediums<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Mock 3: 60 min, 1 Hard<span class="diff-badge hard">Hard</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Mock 4: 60 min, 2 Mediums<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Practice talking through approach aloud<span class="diff-badge easy">Habit</span></li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 3</div>
+      <div class="week-title" style="color:var(--purple)">Stripe-Specific Patterns</div>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Redo: Merchant Fraud Scoring<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Redo: Chart of Accounts (all 3 parts)<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Redo: Card Range Obfuscation<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Interval merge problems<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>State simulation problems<span class="diff-badge medium">Med</span></li>
+      </ul>
+    </div>
+    <div class="week-card" style="grid-column: 1 / -1">
+      <div class="week-label">Week 4</div>
+      <div class="week-title" style="color:var(--green)">Light Review &amp; Rest</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6">Stop learning new things. Redo 20 problems you got wrong earlier. Sleep well.</p>
+      <ul class="problem-list">
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>20 problems from your mistake log — redo blind<span class="diff-badge medium">Med</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Review time/space complexity for all key patterns<span class="diff-badge easy">Review</span></li>
+        <li onclick="toggleCheck(this)"><div class="check-box"></div>Final mock: full 60 min cold start<span class="diff-badge hard">Hard</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PATTERNS ══════════ -->
+<div id="panel-patterns" class="panel">
+  <div class="section-title">Core Pattern Skeletons</div>
+  <p style="margin-bottom:24px">Memorize these. Write each one from memory once a day in Week 1. By Month 2 they should be automatic.</p>
+
+  <div class="pattern-grid">
+
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-icon" style="background:rgba(63,185,80,0.15)">🌊</div>
+        <div>
+          <div class="pattern-name" style="color:var(--green)">BFS — Level Order</div>
+          <div class="pattern-month">Month 2 · Trees &amp; Graphs</div>
+        </div>
+      </div>
+      <div class="pattern-when">Use when: shortest path, level-by-level processing, assigning depths.</div>
+      <div class="pattern-code">from collections import deque
+
+def bfs(root):
+    if not root:
+        return []
+    queue = deque([root])
+    levels = []
+    while queue:
+        level = []
+        for _ in range(len(queue)):
+            node = queue.popleft()
+            level.append(node.val)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        levels.append(level)
+    return levels</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-icon" style="background:rgba(88,166,255,0.15)">🔍</div>
+        <div>
+          <div class="pattern-name" style="color:var(--accent)">DFS — Post-Order</div>
+          <div class="pattern-month">Month 2 · Trees &amp; Graphs</div>
+        </div>
+      </div>
+      <div class="pattern-when">Use when: aggregating values up a tree (children before parents).</div>
+      <div class="pattern-code">def dfs(node):
+    # base case — leaf
+    if not node.children:
+        return values[node]
+
+    total = 0
+    for child in node.children:
+        total += dfs(child)
+
+    values[node] = total
+    return total
+
+# call for every root
+for root in roots:
+    dfs(root)</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-icon" style="background:rgba(210,153,34,0.15)">🔎</div>
+        <div>
+          <div class="pattern-name" style="color:var(--yellow)">Binary Search</div>
+          <div class="pattern-month">Month 3 · Core Patterns</div>
+        </div>
+      </div>
+      <div class="pattern-when">Use when: sorted input, or "find minimum X such that condition holds".</div>
+      <div class="pattern-code">def binary_search(nums, target):
+    lo, hi = 0, len(nums) - 1
+
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+
+    return -1</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-icon" style="background:rgba(188,140,255,0.15)">🔙</div>
+        <div>
+          <div class="pattern-name" style="color:var(--purple)">Backtracking</div>
+          <div class="pattern-month">Month 3 · Core Patterns</div>
+        </div>
+      </div>
+      <div class="pattern-when">Use when: generate all combinations, permutations, or subsets.</div>
+      <div class="pattern-code">def backtrack(start, path, result):
+    result.append(path[:])  # add copy
+
+    for i in range(start, len(nums)):
+        path.append(nums[i])
+        backtrack(i + 1, path, result)
+        path.pop()  # undo choice
+
+result = []
+backtrack(0, [], result)
+return result</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-icon" style="background:rgba(240,136,62,0.15)">🪟</div>
+        <div>
+          <div class="pattern-name" style="color:var(--orange)">Sliding Window</div>
+          <div class="pattern-month">Month 1 · Foundations</div>
+        </div>
+      </div>
+      <div class="pattern-when">Use when: subarray/substring with constraint, variable or fixed window size.</div>
+      <div class="pattern-code">def sliding_window(nums):
+    left = 0
+    result = 0
+    window = {}  # or a counter
+
+    for right in range(len(nums)):
+        # expand window
+        window[nums[right]] = \
+            window.get(nums[right], 0) + 1
+
+        # shrink if invalid
+        while not valid(window):
+            window[nums[left]] -= 1
+            left += 1
+
+        result = max(result, right - left + 1)
+
+    return result</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-icon" style="background:rgba(255,123,114,0.15)">📊</div>
+        <div>
+          <div class="pattern-name" style="color:var(--red)">Prefix Sum</div>
+          <div class="pattern-month">Month 1 · Foundations</div>
+        </div>
+      </div>
+      <div class="pattern-when">Use when: repeated range sum queries, subarray sum = k.</div>
+      <div class="pattern-code">def subarray_sum(nums, k):
+    count = 0
+    prefix = 0
+    seen = {0: 1}  # prefix_sum → count
+
+    for num in nums:
+        prefix += num
+
+        # check if (prefix - k) seen before
+        if prefix - k in seen:
+            count += seen[prefix - k]
+
+        seen[prefix] = seen.get(prefix, 0) + 1
+
+    return count</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ PRINCIPLES ══════════ -->
+<div id="panel-principles" class="panel">
+  <div class="section-title">Principles for the Whole 6 Months</div>
+  <p style="margin-bottom:24px">The people who don't improve grind 300 problems without reflection. These habits are what separate real progress from time spent.</p>
+
+  <div class="principle-list">
+    <div class="principle-card">
+      <div class="principle-num">01</div>
+      <div>
+        <div class="principle-title">Quality over quantity</div>
+        <div class="principle-desc">One problem fully understood beats five problems half-understood. After every problem, ask: why does this solution work, not just does it work. Could you explain it to someone else?</div>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">02</div>
+      <div>
+        <div class="principle-title">Spaced repetition</div>
+        <div class="principle-desc">Every Friday, redo 3 problems from earlier in the week without looking at your solution. Every month, redo 5 problems from the previous month. Memory fades — build it back deliberately.</div>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">03</div>
+      <div>
+        <div class="principle-title">Track your mistakes</div>
+        <div class="principle-desc">Keep a running doc. Every time you get stuck or get something wrong, write down exactly what the gap was — not "I got it wrong" but "I didn't know how to handle the case where the tree has a single node." Patterns will emerge.</div>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">04</div>
+      <div>
+        <div class="principle-title">Before you code — structure first</div>
+        <div class="principle-desc">Write down: (1) what data structures do I need, (2) what is the shape of the input, (3) what does the output look like. This habit alone prevents most implementation bugs.</div>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">05</div>
+      <div>
+        <div class="principle-title">The gate rule</div>
+        <div class="principle-desc">Don't move to the next month until you pass the end-of-month check. The checks exist because skipping them means the next month builds on a weak foundation. A week extra in Month 2 is better than struggling through Month 3.</div>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">06</div>
+      <div>
+        <div class="principle-title">Don't skip the boring ones</div>
+        <div class="principle-desc">Sliding window and two pointers feel easy but hard versions trip everyone up. Master them in Month 1. The problems that feel too simple are often the ones where people lose interview points on edge cases.</div>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">07</div>
+      <div>
+        <div class="principle-title">After solving — ask what slowed you down</div>
+        <div class="principle-desc">Time yourself. After the timer: what slowed me down? Which pattern was I uncertain about? Could I write that pattern from scratch tomorrow? Three questions, every session.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PROGRESS ══════════ -->
+<div id="panel-progress" class="panel">
+  <div class="tracker-header">
+    <div>
+      <div class="section-title" style="margin-bottom:4px">Progress Tracker</div>
+      <div class="tracker-summary">Problems checked: <span id="done-count">0</span> / <span id="total-count">0</span></div>
+    </div>
+    <button class="reset-btn" onclick="resetAll()">Reset All</button>
+  </div>
+
+  <div id="month-bars"></div>
+
+  <hr class="divider" />
+  <div class="section-title">Daily Habit Checklist</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Before each session — check these off mentally:</p>
+    <ul class="problem-list" style="max-width:500px">
+      <li onclick="toggleCheck(this)" style="border-bottom:1px solid var(--border);padding:8px 0"><div class="check-box"></div><span>Write today's pattern skeleton from memory (no reference)</span></li>
+      <li onclick="toggleCheck(this)" style="border-bottom:1px solid var(--border);padding:8px 0"><div class="check-box"></div><span>Define data structures before writing any code</span></li>
+      <li onclick="toggleCheck(this)" style="border-bottom:1px solid var(--border);padding:8px 0"><div class="check-box"></div><span>After solving: explain why the solution works</span></li>
+      <li onclick="toggleCheck(this)" style="border-bottom:1px solid var(--border);padding:8px 0"><div class="check-box"></div><span>Log what slowed me down today</span></li>
+      <li onclick="toggleCheck(this)" style="padding:8px 0"><div class="check-box"></div><span>Friday: redo 3 problems from this week blind</span></li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<script>
+  // ── Tab switching ──
+  function switchTab(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    // find matching button
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      if (b.textContent.toLowerCase().replace(/\s/g,'').includes(id.replace('panel-','').replace('month','month'))) {
+        // simple match
+      }
+    });
+    event.currentTarget.classList.add('active');
+    if (id === 'progress') updateProgress();
+  }
+
+  // ── Checkbox toggle with persistence ──
+  function toggleCheck(li) {
+    const box = li.querySelector('.check-box');
+    box.classList.toggle('done');
+    const key = li.closest('ul').id + '-' + Array.from(li.parentNode.children).indexOf(li);
+    if (box.classList.contains('done')) {
+      localStorage.setItem(key, '1');
+    } else {
+      localStorage.removeItem(key);
+    }
+    updateProgress();
+  }
+
+  function loadChecks() {
+    document.querySelectorAll('.problem-list li').forEach((li, globalIdx) => {
+      const ul = li.closest('ul');
+      const ulId = ul.id || 'habit';
+      const key = ulId + '-' + Array.from(li.parentNode.children).indexOf(li);
+      if (localStorage.getItem(key)) {
+        li.querySelector('.check-box').classList.add('done');
+      }
+    });
+  }
+
+  function resetAll() {
+    if (!confirm('Reset all progress?')) return;
+    document.querySelectorAll('.check-box.done').forEach(b => b.classList.remove('done'));
+    localStorage.clear();
+    updateProgress();
+  }
+
+  // ── Progress bars ──
+  const monthData = [
+    { id: 'month1', label: 'Month 1 — Foundations',          color: 'var(--accent)' },
+    { id: 'month2', label: 'Month 2 — Trees & Graphs',        color: 'var(--green)' },
+    { id: 'month3', label: 'Month 3 — Core Patterns',         color: 'var(--yellow)' },
+    { id: 'month4', label: 'Month 4 — Dynamic Programming',   color: 'var(--purple)' },
+    { id: 'month5', label: 'Month 5 — Speed & Hards',         color: 'var(--orange)' },
+    { id: 'month6', label: 'Month 6 — Simulation',            color: 'var(--red)' },
+  ];
+
+  function updateProgress() {
+    let totalDone = 0, totalAll = 0;
+
+    const bars = document.getElementById('month-bars');
+    bars.innerHTML = '';
+
+    monthData.forEach(m => {
+      const panel = document.getElementById('panel-' + m.id);
+      if (!panel) return;
+      const all  = panel.querySelectorAll('.check-box').length;
+      const done = panel.querySelectorAll('.check-box.done').length;
+      totalDone += done; totalAll += all;
+      const pct = all > 0 ? Math.round((done / all) * 100) : 0;
+
+      bars.innerHTML += `
+        <div class="month-tracker">
+          <div class="month-tracker-header">
+            <div class="month-name">${m.label}</div>
+            <div class="month-pct">${done}/${all}</div>
+          </div>
+          <div class="month-progress">
+            <div class="month-fill" style="width:${pct}%;background:${m.color}"></div>
+          </div>
+        </div>`;
+    });
+
+    document.getElementById('done-count').textContent = totalDone;
+    document.getElementById('total-count').textContent = totalAll;
+  }
+
+  // ── Init ──
+  window.addEventListener('load', () => {
+    loadChecks();
+    updateProgress();
+  });
+</script>
+</body>
+</html>
+
