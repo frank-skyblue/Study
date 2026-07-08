@@ -107,53 +107,91 @@ This is formalized in Chapter 3 with asymptotic notation.
 
 ### The Divide-and-Conquer Paradigm
 
-1. **Divide** the problem into smaller sub-problems of the same type.
-2. **Conquer** each sub-problem recursively. Base case: sub-problem small enough to solve directly.
-3. **Combine** the sub-problem solutions into an answer for the original problem.
+1. **Divide** the problem into one or more subproblems that are smaller instances of the same problem
+2. **Conquer** the subproblems by solving them recursively
+3. **Combine** the subproblem solutions to form a solution to the original problem
 
 ### Merge Sort
 
-```javascript
-const mergeSort = (nums) => {
-  if (nums.length <= 1) {
-    return nums;
-  }
+**Divide** subarray `A[p:r]` to be sorted into 2 halves. Ex. Compute midpoint _q_ of `A[p:r]` and divide into
+`A[p:q]` and `A[q+1:r]`.
+**Conquer** by sorting each of the subarrays recursively using merge sort again.
+**Combine** the two sorted subarrays back into `A[p:r]`, producing the sorted answer
 
-  const mid = Math.floor(nums.length / 2);
-  const left = mergeSort(nums.slice(0, mid));
-  const right = mergeSort(nums.slice(mid));
+The sort _bottoms out_ when it has reached an array with a single element, which is sorted by definition.
 
-  return merge(left, right);
-};
-
-const merge = (left, right) => {
-  const result = [];
-  let i = 0;
-  let j = 0;
-
-  while (i < left.length && j < right.length) {
-    if (left[i] <= right[j]) {
-      result.push(left[i]);
-      i += 1;
-    } else {
-      result.push(right[j]);
-      j += 1;
-    }
-  }
-
-  return result.concat(left.slice(i), right.slice(j));
-};
+```text
+ 1  MERGE(A,p,q,r)
+ 2  nL = q - p + 1                              // length of A[p : q]
+ 3  nR = r - q                                  // length of A[q + 1 : r]
+ 4  let L[0:nL - 1] and R[0 : nR - 1] be new arrays
+ 5  for i = 0 to nL - 1                         // copy A[p : q] into L[0 : nL - 1]
+ 6    L[i] = A[p + i]
+ 7  for j = 0 to nR - 1                         // copy A[q + 1 : r] into R[0 : nR - 1]
+ 8    R[j] = A[q + 1 + j]
+ 9
+10  i = 0                                       // i indexes smallest remaining element in L
+11  j = 0                                       // j indexes smallest remaining element in R
+12  k = p                                       // k indexes the location in A to fill
+13  // As long as both L and R has an unmerged element, copy the smallest unmerged element back to A[p:r]
+14  while i < nL and j < nR
+15    if L[i] <= R[j]
+16      A[k] = L[i]
+17      i = i + 1
+18    else
+19      A[k] = R[j]
+20      j = j + 1
+21    k = k + 1
+22  // Copy over the remaining elements in L and R, if any remaining
+23  while i < nL
+24    A[k] = L[i]
+25    i = i + 1
+26    k = k + 1
+27  while j < nR
+28    A[k] = R[j]
+29    j = j + 1
+30    k = k + 1
+31
+32  MERGE_SORT(A,p,r)
+33    // Base case, single element
+34    if p >= r
+35      return
+36    // split array into 2 halves, and sort both halves
+37    q = floor(p + r / 2)
+38    MERGE_SORT(A,p,q)
+39    MERGE_SORT(A,p,q + 1,r)
+40    MERGE(A,p,q,r)
 ```
 
 ### Complexity
 
-The recurrence for merge sort is:
+Combining 2 sorted halves takes _O(n)_ intuitively, and the depth of the recursion tree is _O(nlog(n))_.
+
+Recurrence equation.
+
+Let _T(n)_ be the worst-case running time on a problem of size _n_
+
+If the problem size is small enough, say _n < n0_ for some _n0 > 0_. The straightforward
+solution is _O(1)_ time
+
+Suppose that the division of the problem yields _a_ sub problems each with size _n/b_.
+
+It takes _T(n/b)_ time to solve one subproblem of size _n/b_, and so it takes _aT(n/b)_ time to solve all _a_ problems.
+
+If it takes _D(n)_ time to divide the problem into subproblems and _C(n)_ time to combine the solutions to the subproblems into the solution of the problem, we get recurrence
 
 $$
-T(n) = \begin{cases} \Theta(1) & \text{if } n = 1  2T(n/2) + \Theta(n) & \text{if } n > 1 \end{cases}
+T(n) = \begin{cases} \Theta(1) & \text{if } n < n_0 \\ D(n) + aT(n/b) + C(n) & \text{otherwise} \end{cases}
 $$
 
-Solving: **T(n) = Θ(n lg n)** — this holds in all cases (best, average, worst).
+For merge sort, _C(n) = O(n)_, _D(n) = O(1)_. So recurrence is
+
+$$
+T(n) = 2T(n/2) + O(n)
+$$
+
+Which we can show with master theorem, that it is _O(nlog(n))_, but can also argue with
+intuition, ex. depth x O(n)
 
 ### Insertion Sort vs. Merge Sort
 

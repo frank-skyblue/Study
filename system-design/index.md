@@ -19,6 +19,12 @@ Master table for system design fundamentals and case studies.
 | [URL Shortener](./case-studies/url_shortener.md) | ID generation, redirects, storage, caching. | Starter walkthrough |
 | [Instagram](./case-studies/instagram.md) | Media uploads, feeds, fanout, CDN. | Template |
 
+## Engineering Blogs
+
+| Article | Topic | Status |
+| --- | --- | --- |
+| [Uber Real-Time Push Platform](./blogs/uber/real_time_push_platform.md) | RAMEN, SSE, gRPC, push messaging. | Skeleton |
+
 ## Study Backlog
 
 | Area | Topics |

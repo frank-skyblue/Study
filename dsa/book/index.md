@@ -16,10 +16,10 @@ Reading track for _Introduction to Algorithms_, 4th ed. (Cormen, Leiserson, Rive
 
 ## Reading Log
 
-| Date        | Chapter | Sections | Notes                              |
-| ----------- | ------- | -------- | ---------------------------------- |
-| Jul 5, 2026 | 2       | 2.1, 2.2 | insertion sort + loop invariant    |
-| —           | —       | —        | Add an entry each reading session. |
+| Date        | Chapter | Sections  | Notes                                                                                               |
+| ----------- | ------- | --------- | --------------------------------------------------------------------------------------------------- |
+| Jul 5, 2026 | 2       | 2.1, 2.2  | insertion sort + loop invariant                                                                     |
+| Jul 8, 2026 | 2,3     | 2.3, 3.\* | divide and conquer + merge sort + recurrence, skimmed over running times, as only big O is relevant |
 
 ## Focus Areas & Order
 
@@ -29,17 +29,17 @@ Reading track for _Introduction to Algorithms_, 4th ed. (Cormen, Leiserson, Rive
 
 ---
 
-## Tier 1 — Core, go deep
+## Tier 1 — Core CLRS chapters (lightened)
 
-| Order | Chapters   | Topic                                                              | Notes                                                                                         |
-| ----- | ---------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
-| 1     | Ch 2–3     | Insertion sort, analyzing/asymptotic notation                      | Quick refresh pass                                                                            |
-| 2     | Ch 4.1–4.5 | Divide-and-conquer, recurrences, master method                     | Skip 4.6 (proof) & 4.7 (Akra-Bazzi) — skim only                                               |
-| 3     | Ch 5.1–5.2 | Hiring problem, indicator random variables                         | Partial — skip rest of Ch 5                                                                   |
-| 4     | Ch 6–9     | Heapsort, Quicksort, linear-time sorting, order statistics         | Full depth, all sections                                                                      |
-| 5     | Ch 10–13   | Elementary DS, Hash Tables, BSTs, Red-Black Trees                  | Full depth, all sections                                                                      |
-| 6     | Ch 14–16   | Dynamic Programming, Greedy, Amortized Analysis                    | **Highest leverage for interviews** — don't rush                                              |
-| 7     | Ch 20–24   | Graphs: BFS/DFS/topo/SCC, MST, shortest paths, all-pairs, max flow | Full depth; skip 22.4–22.5, focus on Floyd-Warshall in Ch 23, Ford-Fulkerson concept in Ch 24 |
+| Order | Chapters   | Topic                                                              | Notes                                                                                                                           |
+| ----- | ---------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | Ch 2–3     | Insertion sort, analyzing/asymptotic notation                      | Quick refresh pass                                                                                                              |
+| 2     | Ch 4.1–4.5 | Divide-and-conquer, recurrences, master method                     | Skip 4.6 (proof) & 4.7 (Akra-Bazzi) — skim only                                                                                |
+| 3     | Ch 5.1–5.2 | Hiring problem, indicator random variables                         | Partial — skip rest of Ch 5                                                                                                     |
+| 4     | Ch 6–9     | Heapsort, Quicksort, linear-time sorting, order statistics         | Ch 9 (median-of-medians): know it exists and why it matters; no deep mastery needed                                             |
+| 5     | Ch 10–13   | Elementary DS, Hash Tables, BSTs, Red-Black Trees                  | Implement hash tables and BSTs yourself; for RB-trees, understand the balancing invariant and when to reach for a balanced tree — skip proving rotation correctness |
+| 6     | Ch 14–16   | Dynamic Programming, Greedy, Amortized Analysis                    | **Highest leverage for interviews** — supplement heavily with problem sets; DP mastery comes from problem volume, not re-reading |
+| 7     | Ch 20–24   | Graphs: BFS/DFS/topo/SCC, MST, shortest paths, all-pairs, max flow | Skip 22.4–22.5; max flow (Ch 24) is conceptual-only unless specifically prepping Google                                         |
 
 ---
 
@@ -67,13 +67,37 @@ Reading track for _Introduction to Algorithms_, 4th ed. (Cormen, Leiserson, Rive
 
 ---
 
-## Phasing (approx., 2–4 hrs/week)
+## Running concurrently the whole time
 
-- **Months 1–4:** Ch 2–4 (skip 4.6/4.7), Ch 6–9
-- **Months 5–9:** Ch 10–13
-- **Months 10–15:** Ch 14–16 ⭐ (core interview leverage)
-- **Months 16–20:** Ch 20–24
-- **Months 21–24:** Ch 19, 18, 17, 25
-- **Months 25–30+:** Ch 34 (conceptual), flexible Tier 3 reading, increasing weight on mock interviews + system design
+### Pattern-based problem set
 
-**Standing rule:** Pair every chapter with targeted practice problems as you go — don't save practice for "after."
+Use **NeetCode 150** or **Grind 169**, done repeatedly — not once.
+
+- **First pass:** learn the patterns
+- **Later passes:** build speed and clean communication
+
+CLRS is the "why does this work" reference. A pattern resource drives your weekly practice from the start. The textbook alone will not get you interview-ready even after a full read-through — it was not written for that.
+
+### Mock interviews (especially years 2–3)
+
+Verbalizing your approach, clarifying requirements, and discussing tradeoffs is graded separately from correctness at senior level. It is a skill that needs deliberate practice, not just knowledge.
+
+### Company-specific calibration (late prep)
+
+| Company       | What to expect                                                                               |
+| ------------- | -------------------------------------------------------------------------------------------- |
+| Amazon        | LC medium + heavy behavioral (Leadership Principles) — do not neglect the behavioral half    |
+| Google        | Harder problems, strong emphasis on optimal complexity and edge cases; max-flow worth knowing |
+| Meta          | Speed + correctness on mediums; less exotic                                                  |
+| Stripe        | Practical/API-design-flavored problems alongside algorithms                                  |
+| Uber/Pinterest | Fairly standard LC medium/hard mix                                                           |
+
+---
+
+## Phasing (approx., 2–4 hrs/week on CLRS)
+
+- **Months 1–6:** CLRS Tier 1 (lightened per above) interleaved with 3–5 problems/week per topic as you finish each chapter
+- **Months 6–18:** Steady problem-solving cadence — aim for 200–300 problems total (easy/medium/hard, weighted toward medium); revisit CLRS only as a reference when a concept feels shaky
+- **Last 6–12 months:** Mock interviews, timed practice, revisiting weakest patterns, company-specific prep, and system design in parallel (graded separately and often weighted equally or more at senior level)
+
+**Standing rule:** Let problem patterns drive your weekly practice from day one. Use CLRS as a reference shelf, not a reading list to finish before you start solving.
