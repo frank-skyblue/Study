@@ -5,82 +5,55 @@
 > LeetCode 1 — Given an array of integers `nums` and an integer `target`, return the **indices** of the two numbers that add up to `target`.
 > You may assume each input has exactly one solution, and you may not use the same element twice.
 
-Related notes: [Two Pointers](../patterns/two_pointers.md), [Sliding Window](../patterns/sliding_window.md)
+Related notes: [Array](../patterns/array.md), [Hash Table](../patterns/hash_table.md)
 
 ---
 
-## Pattern
+## Intuition
+Go through the array, keeping track of numbers we've seen so far with a mapping to their index.
 
-Hash map / complement lookup.
+At the same time, for each number, check whether the complement (target - num) has already been seen.
+If it has been seen, simply retrieve the index from the mapping and return the indicies.
 
-## Approach: Hash Map (One Pass)
+## Approach
+B.F.
 
-Instead of checking every pair, store each number's index as you scan the array. For each value, ask: *have I already seen its complement (`target - num`)?*
+Iterate through all tuples => O(n^2)
 
-**Time:** O(n)  
-**Space:** O(n)
+Use a hashmap from the number to the index.
 
-```javascript
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
-const twoSum = (nums, target) => {
-  const seen = new Map();
+Note that if we do not need the indexes, we can approach using a slightly slower but constant space
+algorithm:
+- Sort nums array => O(nlogn)
+- Initialize 2 pointers from each end and calculate sum at each step
+  - If sum is less than target, increment left pointer
+  - If sum is greater than target, decrement right pointer.
+- Q: What if we "pass by" a correct value, or why can't we increment the right pointer or
+decrement the left pointer?
+  - Suppose that the right pointer lands on the correct value, then that means the sum at that time
+  is less than the target, which means the left pointer will increment from that point on. In no
+  case will we need to increment the right pointer.
 
-  for (let i = 0; i < nums.length; i += 1) {
-    const num = nums[i];
-    const complement = target - num;
+## Complexity
 
-    if (seen.has(complement)) {
-      return [seen.get(complement), i];
-    }
+- Time: O(n)
+- Space: O(n)
 
-    seen.set(num, i);
-  }
+## Solution
 
-  return [];
-};
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        num_to_index = {}
+        for i, num in enumerate(nums):
+            want = target - num
+            if want in num_to_index:
+                return [i, num_to_index[want]]
+            num_to_index[num] = i
+        
+        return [-1, -1]
 ```
-
----
-
-## Walkthrough
-
-Example: `nums = [2, 7, 11, 15]`, `target = 9`
-
-| Step | `i` | `num` | `complement` | `seen` After Step | Result |
-| --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 2 | 7 | `{ 2: 0 }` | - |
-| 2 | 1 | 7 | 2 | `{ 2: 0, 7: 1 }` | `[0, 1]` |
-
-At index 1, complement `2` is already in the map at index 0, so return `[0, 1]`.
-
----
-
-## Why Not Brute Force?
-
-```javascript
-const twoSumBruteForce = (nums, target) => {
-  for (let i = 0; i < nums.length; i += 1) {
-    for (let j = i + 1; j < nums.length; j += 1) {
-      if (nums[i] + nums[j] === target) {
-        return [i, j];
-      }
-    }
-  }
-
-  return [];
-};
-```
-
-The hash map trades extra space for a single pass through the array.
-
----
 
 ## Key Takeaways
-
-- Store **value → index** so `seen.has(complement)` is O(1).
-- Check for the complement **before** inserting the current number to avoid using the same element twice.
-- This is not a two-pointer problem when original indices are required and the input is unsorted.
+Two sum can be solved both with hashmap and sorting. Sorting is preferred when we need to eliminate 
+duplicates (in the case of 3 sum).
